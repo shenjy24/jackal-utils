@@ -14,6 +14,7 @@ public class MD5Utils {
 
     /**
      * 生成含有随机盐的MD5
+     *
      * @param password 明文
      */
     public static String saltMd5(String password) {
@@ -40,8 +41,9 @@ public class MD5Utils {
 
     /**
      * 校验密码是否正确
+     *
      * @param password 明文
-     * @param md5 密文
+     * @param md5      密文
      */
     public static boolean verifySaltMd5(String password, String md5) {
         char[] cs1 = new char[32];

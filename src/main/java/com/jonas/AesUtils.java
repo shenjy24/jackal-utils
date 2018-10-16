@@ -15,6 +15,7 @@ import java.security.SecureRandom;
 public class AesUtils {
     /**
      * AES加密
+     *
      * @param content
      * @param password
      * @return
@@ -22,7 +23,7 @@ public class AesUtils {
     public static String encrypt(String content, String password) {
         try {
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             random.setSeed(password.getBytes());
             keygen.init(128, random);
             SecretKey secretKey = keygen.generateKey();
@@ -51,6 +52,7 @@ public class AesUtils {
 
     /**
      * AES解密
+     *
      * @param content
      * @param password
      * @return
@@ -58,7 +60,7 @@ public class AesUtils {
     public static String decrypt(String content, String password) {
         try {
             KeyGenerator keygen = KeyGenerator.getInstance("AES");
-            SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
             random.setSeed(password.getBytes());
             keygen.init(128, random);
             SecretKey secretKey = keygen.generateKey();
@@ -84,6 +86,7 @@ public class AesUtils {
 
     /**
      * 将二进制转换成16进制
+     *
      * @param buf
      * @return
      */
@@ -101,6 +104,7 @@ public class AesUtils {
 
     /**
      * 将16进制转换为二进制
+     *
      * @param hex
      * @return
      */
@@ -108,10 +112,10 @@ public class AesUtils {
         if (hex.length() < 1) {
             return null;
         }
-        byte[] result = new byte[hex.length()/2];
-        for (int i = 0;i< hex.length()/2; i++) {
-            int high = Integer.parseInt(hex.substring(i*2, i*2+1), 16);
-            int low = Integer.parseInt(hex.substring(i*2+1, i*2+2), 16);
+        byte[] result = new byte[hex.length() / 2];
+        for (int i = 0; i < hex.length() / 2; i++) {
+            int high = Integer.parseInt(hex.substring(i * 2, i * 2 + 1), 16);
+            int low = Integer.parseInt(hex.substring(i * 2 + 1, i * 2 + 2), 16);
             result[i] = (byte) (high * 16 + low);
         }
         return result;
