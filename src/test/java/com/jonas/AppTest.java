@@ -81,4 +81,17 @@ public class AppTest {
         String contentMd5Sign = SignUtils.getMd5Sign(content, privateKey);
         System.out.println("verify sign with md5 and rsa: " + SignUtils.verifyMd5Sign(content, contentMd5Sign, publicKey));
     }
+
+    @Test
+    public void testZip() {
+        String dir = "/Users/shenjy/Downloads";
+        String zipPath = "/Users/shenjy/download.zip";
+        CompressUtils.zip(dir, zipPath);
+
+        String unzipDir = "/Users/shenjy/Desktop/temp";
+        String unzipFile = "/Users/shenjy/download.zip";
+        CompressUtils.unzip(unzipFile, unzipDir);
+
+        System.out.println("success!");
+    }
 }
