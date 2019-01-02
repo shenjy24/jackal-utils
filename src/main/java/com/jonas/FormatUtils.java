@@ -16,6 +16,7 @@ public class FormatUtils {
 
     /**
      * 容量大小转换
+     *
      * @param size
      * @return
      */
@@ -36,13 +37,14 @@ public class FormatUtils {
 
     /**
      * 时间大小转换
+     *
      * @param second
      * @return
      */
     public static String formatSecond(int second) {
-        int h = second/3600;
-        int m = (second%3600)/60;
-        int s = (second%3600)%60;
+        int h = second / 3600;
+        int m = (second % 3600) / 60;
+        int s = (second % 3600) % 60;
 
         StringBuilder time = new StringBuilder();
         if (0 != h) {
@@ -59,12 +61,37 @@ public class FormatUtils {
     }
 
     /**
+     * 时长转化为00:00:00的格式
+     *
+     * @param second
+     * @return
+     */
+    public static String formatDuration(int second) {
+        int h = second / 3600;
+        int m = (second % 3600) / 60;
+        int s = (second % 3600) % 60;
+
+        return String.format("%s:%s:%s", parse(h), parse(m), parse(s));
+    }
+
+    private static String parse(int num) {
+        if (0 == num) {
+            return "00";
+        } else if (10 > num){
+            return "0" + num;
+        } else {
+            return String.valueOf(num);
+        }
+    }
+
+    /**
      * 日期格式转换
      * 1、1小时内显示XX分钟前。
      * 2、今天之内显示XX小时前。
      * 3、非今天显示：X天前。昨天：1天前，前天：2天前
      * 4、非本月显示：1个月前
      * 5、非本年度显示：1年前
+     *
      * @param millisecond
      * @return
      */
@@ -76,19 +103,19 @@ public class FormatUtils {
         if (between < 0) {
             return "";
         } else if (between < DateUtils.HOUR_SECOND) {
-            Integer minute = between/60;
+            Integer minute = between / 60;
             return minute + "分钟前";
         } else if (between < DateUtils.DAY_SECOND) {
-            Integer hour = between/DateUtils.HOUR_SECOND;
+            Integer hour = between / DateUtils.HOUR_SECOND;
             return hour + "小时前";
         } else if (between < DateUtils.MONTH_SECOND) {
-            Integer day = between/DateUtils.DAY_SECOND;
+            Integer day = between / DateUtils.DAY_SECOND;
             return day + "天前";
         } else if (between < DateUtils.YEAR_SECOND) {
-            Integer month = between/DateUtils.MONTH_SECOND;
+            Integer month = between / DateUtils.MONTH_SECOND;
             return month + "个月前";
         } else {
-            Integer year = between/DateUtils.YEAR_SECOND;
+            Integer year = between / DateUtils.YEAR_SECOND;
             return year + "年前";
         }
     }

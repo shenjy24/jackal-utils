@@ -16,6 +16,13 @@ import java.util.Map;
 public class AppTest {
 
     @Test
+    public void testDuration() {
+        int duration = 3600;
+        String str = FormatUtils.formatDuration(duration);
+        System.out.println(str);
+    }
+
+    @Test
     public void testMD5() {
         String pwd = "1234567";
         String md5Pwd = "05d55d438b6c11083f29f94505a241f1888dd3049f985f05";

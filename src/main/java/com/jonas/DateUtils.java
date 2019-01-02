@@ -17,6 +17,8 @@ public class DateUtils {
 
     public static final String FORMAT_ZERO_ZONE = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
+    public static final Integer MINUTE_SECOND = 60;
+
     public static final Integer HOUR_SECOND = 60 * 60;
 
     public static final Integer DAY_SECOND = HOUR_SECOND * 24;
