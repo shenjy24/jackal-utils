@@ -1,19 +1,26 @@
 package com.jonas;
 
 import com.google.common.collect.Maps;
+import com.jonas.net.HttpUtils;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.util.Map;
 
 /**
- * 【 enter the class description 】
+ * 获取地理定位工具类
  *
  * @author shenjy 2019/02/19
  */
-public class IpUtils {
+public class GeoUtils {
 
-    public static String getCityByAmap(String ip) {
+    /**
+     * 通过高德地图API获取IP位置信息
+     *
+     * @param ip
+     * @return
+     */
+    public static String getGeoByAmap(String ip) {
 
         String url = "https://restapi.amap.com/v3/ip";
         String key = "8693365cf148382ff99604caa9326bb6";
@@ -33,7 +40,13 @@ public class IpUtils {
         return "";
     }
 
-    public static String getCityByBaidu(String ip) {
+    /**
+     * 通过百度地图API获取IP位置信息
+     *
+     * @param ip
+     * @return
+     */
+    public static String getGeoByBaidu(String ip) {
 
         String url ="https://api.map.baidu.com/location/ip";
         String ak = "pxreFTwdshiVtPuitTnHn1OhAXWGagZ7";
@@ -54,6 +67,7 @@ public class IpUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getCityByAmap("123.139.94.139"));
+        System.out.println(getGeoByAmap("123.139.94.139"));
+        System.out.println(getGeoByBaidu("123.139.94.139"));
     }
 }

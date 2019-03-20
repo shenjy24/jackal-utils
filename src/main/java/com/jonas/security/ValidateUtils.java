@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.security;
 
 import java.util.regex.Pattern;
 

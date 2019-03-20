@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.net;
 
 import okhttp3.*;
 

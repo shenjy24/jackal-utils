@@ -2,6 +2,9 @@ package com.jonas;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
+import com.jonas.security.AesUtils;
+import com.jonas.security.MD5Utils;
+import com.jonas.security.SignUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

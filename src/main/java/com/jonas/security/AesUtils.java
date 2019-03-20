@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.security;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
