@@ -156,12 +156,42 @@ public class ListUtils {
         return list.toArray(new String[list.size()]);
     }
 
+    /**
+     * 集合差集
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public static <T> List<T> diffSet(List<T> list1, List<T> list2) {
+        List<T> l1 = Lists.newArrayList(list1);
+        List<T> l2 = Lists.newArrayList(list2);
+        l1.removeAll(l2);
+        return Lists.newArrayList(l1);
+    }
+
+    /**
+     * 集合交集
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public static <T> List<T> interSet(List<T> list1, List<T> list2) {
+        return org.apache.commons.collections.ListUtils.retainAll(list1, list2);
+    }
+
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>(10);
         for (int i = 0; i < 10; i++) {
             list.add(i);
         }
 
-        System.out.println(isSorted(list));
+        List<Integer> list2 = new ArrayList<>(10);
+        for (int i = 0; i < 5; i++) {
+            list2.add(i);
+        }
+
+        System.out.println(diffSet(list, list2));
+        System.out.println(interSet(list, list2));
     }
 }
