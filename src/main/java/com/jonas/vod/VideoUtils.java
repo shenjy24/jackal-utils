@@ -1,11 +1,15 @@
 package com.jonas.vod;
 
-import com.alibaba.fastjson.JSON;
+import ws.schild.jave.Encoder;
 import ws.schild.jave.EncoderException;
 import ws.schild.jave.MultimediaInfo;
 import ws.schild.jave.MultimediaObject;
 
-import java.io.File;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 
 /**
  * 视频工具类
@@ -26,7 +30,7 @@ public class VideoUtils {
         }
 
         try {
-            MultimediaObject multimediaObject = new MultimediaObject(file, new MyFFMPEGLocator());
+            MultimediaObject multimediaObject = new MultimediaObject(file);
             MultimediaInfo info = multimediaObject.getInfo();
             return info;
         } catch (EncoderException e) {
@@ -36,12 +40,37 @@ public class VideoUtils {
         return null;
     }
 
-    public static void main(String[] args) {
-        String fileName = "/Users/shenjy/Documents/resource/video/卡鲁.mp4";
-        File file = new File(fileName);
-        //文件大小 bytes
-        System.out.println(file.length());
+    public static void toBDFile(String urlStr, String bdUrl) throws IOException {
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        DataInputStream in = new DataInputStream(conn.getInputStream());
+        byte[] data = toByteArray(in);
+        in.close();
+        FileOutputStream out = new FileOutputStream(bdUrl);
+        out.write(data);
+        out.close();
+    }
 
-        System.out.println(getVideoInfo(file));
+    public static byte[] toByteArray(InputStream in) throws IOException {
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024 * 4];
+        int n = 0;
+        while ((n = in.read(buffer)) != -1) {
+            out.write(buffer, 0, n);
+        }
+        return out.toByteArray();
+    }
+
+    public static void main(String[] args) throws IOException {
+        String url = "https://shenjy-in.oss-cn-hangzhou.aliyuncs.com/video/%E5%8D%A1%E9%B2%812.mp4";
+
+        File tmpFile = File.createTempFile("temp", ".tmp");
+        toBDFile(url, tmpFile.getCanonicalPath());
+
+        //文件大小 bytes
+        System.out.println(tmpFile.length());
+
+        System.out.println(getVideoInfo(tmpFile));
     }
 }

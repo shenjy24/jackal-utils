@@ -22,6 +22,12 @@ public class ValidateUtils {
     public static final String REGEX_PWD = "^((?![\\u4e00-\\u9fa5]).){6,18}$";
 
     /**
+     * 正则表达式：验证金额
+     * 不能为负数，最多两位小数
+     */
+    public static final String REGEX_MONEY = "^([1-9]([0-9]+)?(\\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\\.[0-9]([0-9])?$)";
+
+    /**
      * 校验自定义账户
      *
      * @param account
@@ -41,8 +47,19 @@ public class ValidateUtils {
         return Pattern.matches(REGEX_PWD, pwd);
     }
 
+    /**
+     * 校验金额
+     *
+     * @param money
+     * @return
+     */
+    public static boolean isMoney(String money) {
+        return Pattern.matches(REGEX_MONEY, money);
+    }
+
     public static void main(String[] args) {
-        String pwd = "人人车窗好不好";
-        System.out.println(isPassword(pwd));
+        String str = String.valueOf(Double.valueOf(0110.1));
+        System.out.println(isMoney(str));
+        System.out.println(str);
     }
 }
