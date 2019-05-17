@@ -19,7 +19,7 @@ public class BeanCopier {
      * @param <T>
      * @return
      */
-    public static <T> List<T> copyList(Object source, Class<T> clazz) {
+    public static <T> List<T> copyList(List source, Class<T> clazz) {
         List<T> target = JSON.parseArray(JSON.toJSONString(source), clazz);
         return target;
     }
