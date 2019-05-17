@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author shenjy 2019/05/17
  */
-public class BeanUtils {
+public class BeanCopier {
 
     /**
      * 复制对象列表属性
