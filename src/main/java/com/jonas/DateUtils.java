@@ -3,6 +3,8 @@ package com.jonas;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 
 /**
  * 【 时间工具类 】
@@ -134,6 +136,20 @@ public class DateUtils {
      */
     public static int parseToSecond(Long millisecond) {
         return Long.valueOf(millisecond / 1000).intValue();
+    }
+
+    public static Integer getSundayEnd() {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(DayOfWeek.SUNDAY.getValue() - localData.getDayOfWeek().getValue()));
+        String sunday = df.format(LocalDate.now().with(dateAdjuster));
+
+        LocalDateTime localDateTime = LocalDateTime.parse(sunday + " 23:59:59", DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS));
+        return Math.toIntExact(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli() / 1000);
+    }
+
+    public static LocalDateTime getLocalDateTime(Integer timestamp) {
+        Instant instant = Instant.ofEpochSecond(timestamp);
+        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
     public static void main(String[] args) {
