@@ -1,5 +1,7 @@
 package com.jonas;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 /**
@@ -118,5 +120,20 @@ public class FormatUtils {
             Integer year = between / DateUtils.YEAR_SECOND;
             return year + "年前";
         }
+    }
+
+    /**
+     * 格式化数字，有小数保留scale位，无小数显示整数
+     * @param num     数字
+     * @param scale  保留位数
+     * @return
+     */
+    public static String formatDouble(double num, int scale) {
+        BigDecimal bg = new BigDecimal(num).setScale(scale, RoundingMode.DOWN);
+        double value = bg.doubleValue();
+        if (Math.round(value) - value == 0) {
+            return String.valueOf((long) value);
+        }
+        return String.valueOf(value);
     }
 }

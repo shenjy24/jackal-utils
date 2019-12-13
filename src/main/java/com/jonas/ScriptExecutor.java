@@ -14,27 +14,37 @@ import javax.script.ScriptException;
  * @since 2019-10-28
  */
 public class ScriptExecutor {
-    private static CalculateDuration duration;
-    private static String formulate = "((headShot&&slot==0)||(!headShot&&slot!=0))?max*damage/(-0.000364662607813291*max*max+0.45440131912734527*max+61.66925101471344):0";
+    private static IFormula FORMULA;
+    private static String HEALTH = "health + 25 * con + 20 * str";
+    private static String ATTACK = "(atk + 4 * str + 2.75 * dex) * dmg";
 
     static {
+        String healthFormula = "function getHealth(health, con, str) { return " + HEALTH + "}";
+        String attackFormula = "function getAttack(atk, str, dex, dmg) { return " + ATTACK + "}";
+        String function = new StringBuilder(healthFormula).append(attackFormula).toString();
+
         ScriptEngine engine = new ScriptEngineManager(String.class.getClassLoader()).getEngineByExtension("js");
         try {
-            engine.eval("" +
-                    "function getCost(max,damage,headShot,slot){return (" + formulate + ")}");
-            duration = ((Invocable) engine).getInterface(CalculateDuration.class);
+            engine.eval(function);
+            FORMULA = ((Invocable) engine).getInterface(IFormula.class);
         } catch (ScriptException e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    public interface CalculateDuration {
-        float getCost(int max, float damage, boolean headShot, int slot);
+    public interface IFormula {
+        //获取血量（血量、体质、力量）
+        float getHealth(double health, double con, double str);
+        //获取攻击（攻击、力量、敏捷、暴击伤害）
+        float getAttack(double atk, double str, double dex, double dmg);
     }
 
     public static void main(String[] args) {
-        float cost = duration.getCost(10, 10, false, 1);
-        System.out.println(cost);
+        float health = FORMULA.getHealth(1.0, 1.0, 1.0);
+        System.out.println(health);
+
+        float attack = FORMULA.getAttack(1.0, 1.0, 1.0, 1.0);
+        System.out.println(attack);
     }
 }
