@@ -1,10 +1,12 @@
-package com.jonas;
+package com.jonas.date;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 【 时间工具类 】
@@ -31,6 +33,7 @@ public class DateUtils {
 
     /**
      * 获取当前日期字符串
+     *
      * @return
      */
     public static String getCurrentDate() {
@@ -39,7 +42,18 @@ public class DateUtils {
     }
 
     /**
+     * 获取当前日期字符串
+     *
+     * @return
+     */
+    public static String getCurrentDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS));
+    }
+
+    /**
      * 获取某一个时间段之后的毫秒时间戳
+     *
      * @param stamp
      * @param amount
      * @param unit
@@ -47,12 +61,13 @@ public class DateUtils {
      */
     public static Long getNextStamp(Long stamp, Integer amount, ChronoUnit unit) {
         LocalDateTime now = Instant.ofEpochMilli(stamp).atZone(ZoneId.systemDefault()).toLocalDateTime();
-        LocalDateTime next =  now.plus(amount, unit);
+        LocalDateTime next = now.plus(amount, unit);
         return next.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 
     /**
      * 根据毫秒时间戳比较日期大小
+     *
      * @param stamp1
      * @param stamp2
      * @return
@@ -73,6 +88,7 @@ public class DateUtils {
 
     /**
      * "yyyy-MM-dd"格式 转化为 毫秒时间戳
+     *
      * @param date
      * @return
      */
@@ -84,6 +100,7 @@ public class DateUtils {
 
     /**
      * "yyyy-MM-dd HH:mm:ss"格式 转化为 毫秒时间戳
+     *
      * @param dateTime
      * @return
      */
@@ -94,6 +111,7 @@ public class DateUtils {
 
     /**
      * 处理0时区时间为本地时间
+     *
      * @param time
      * @return
      */
@@ -104,6 +122,7 @@ public class DateUtils {
 
     /**
      * 毫秒时间戳 转化为 "yyyy-MM-dd"
+     *
      * @param stamp
      * @return
      */
@@ -114,6 +133,7 @@ public class DateUtils {
 
     /**
      * 毫秒时间戳 转化为 "yyyy-MM-dd HH:mm:ss"
+     *
      * @param stamp
      * @return
      */
@@ -124,6 +144,7 @@ public class DateUtils {
 
     /**
      * 秒时间戳
+     *
      * @return
      */
     public static int currentSecond() {
@@ -132,6 +153,7 @@ public class DateUtils {
 
     /**
      * 秒时间戳
+     *
      * @return
      */
     public static int parseToSecond(Long millisecond) {
@@ -150,6 +172,29 @@ public class DateUtils {
     public static LocalDateTime getLocalDateTime(Integer timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    /**
+     * 日期范围判断
+     *
+     * @param validPeriod 格式：2019-12-18 13:50:00 ~ 2020-01-01 12:00:00
+     * @return
+     */
+    public static boolean isRange(String validPeriod) {
+        String pattern = "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})\\s+~\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(validPeriod);
+        if (m.find()) {
+            return isRange(m.group(1), m.group(2));
+        }
+        return false;
+    }
+
+    private static boolean isRange(String start, String end) {
+        Long startTimeStamp = getStampFromTime(start);
+        Long endTimeStamp = getStampFromTime(end);
+        Integer now = currentSecond();
+        return now >= startTimeStamp && now <= endTimeStamp;
     }
 
     public static void main(String[] args) {

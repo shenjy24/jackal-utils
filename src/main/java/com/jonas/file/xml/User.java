@@ -1,4 +1,4 @@
-package com.jonas.data;
+package com.jonas.file.xml;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;

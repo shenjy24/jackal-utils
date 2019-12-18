@@ -1,4 +1,4 @@
-package com.jonas.data;
+package com.jonas.file.xml;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.DateConverter;
