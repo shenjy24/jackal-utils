@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.common;
 
 import com.google.common.collect.Maps;
 import com.jonas.net.HttpUtils;

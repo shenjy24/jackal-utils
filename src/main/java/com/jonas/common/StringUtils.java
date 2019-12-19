@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.common;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;

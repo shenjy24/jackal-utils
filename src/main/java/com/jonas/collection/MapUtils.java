@@ -1,4 +1,4 @@
-package com.jonas.set;
+package com.jonas.collection;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -48,16 +48,5 @@ public class MapUtils {
             result.put(entry.getKey(), entry.getValue());
         }
         return result;
-    }
-
-    public static void main(String[] args) {
-        Map<String, Double> source = new LinkedHashMap<String, Double>() {{
-            put("Tom", 1.0);
-            put("John", 1.3);
-            put("Mike", 1.1);
-        }};
-        Map<String, Double> target = sortMapByValue(source, true);
-        System.out.println(source);
-        System.out.println(target);
     }
 }

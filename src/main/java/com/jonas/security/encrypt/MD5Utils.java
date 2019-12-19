@@ -1,4 +1,4 @@
-package com.jonas.security;
+package com.jonas.security.encrypt;
 
 import org.apache.commons.codec.binary.Hex;
 

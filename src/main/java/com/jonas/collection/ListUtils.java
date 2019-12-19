@@ -1,4 +1,4 @@
-package com.jonas.set;
+package com.jonas.collection;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

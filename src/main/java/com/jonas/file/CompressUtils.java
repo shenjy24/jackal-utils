@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.file;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.Zip64Mode;

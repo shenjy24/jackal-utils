@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.common;
 
 import java.util.Random;
 

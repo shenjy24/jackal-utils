@@ -1,10 +1,12 @@
-package com.jonas.date;
+package com.jonas.common;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -197,10 +199,60 @@ public class DateUtils {
         return now >= startTimeStamp && now <= endTimeStamp;
     }
 
-    public static void main(String[] args) {
-        String dateStr = "2018-08-30T08:38:35Z";
-        Long stamp = parseZeroZoneTime(dateStr);
-        System.out.println(stamp);
-        System.out.println(getDateTime(stamp));
+    /**
+     * 当前时间是否为给定时间范围，start为奇数时为有效范围，否则为无效范围
+     *
+     * @param dates 日期格式: 2019-12-19 12:00:00-15:00:00
+     * @return
+     */
+    public static boolean checkRange(List<String> dates) {
+        Long[] dateIndex = getDateIndex(dates);
+        if (0 == dateIndex.length) {
+            return false;
+        }
+
+        long current = System.currentTimeMillis();
+        if (current < dateIndex[0] || current > dateIndex[dateIndex.length - 1]) {
+            return false;
+        }
+
+        int start = 0;
+        int end = dateIndex.length - 1;
+        while (end - start > 1) {
+            int middle = (start + end) / 2;
+            if (current < dateIndex[middle]) {
+                end = middle;
+            } else {
+                start = middle;
+            }
+        }
+
+        return start % 2 == 0;
+    }
+
+    private static Long[] getDateIndex(List<String> dates) {
+        //现将数据缓存到数组里面
+        List<Long> dateArray = new LinkedList<>();
+        dates.forEach(line -> {
+            if (!line.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}-\\d{2}:\\d{2}:\\d{2}")) {
+                return;
+            }
+
+            String date = line.substring(0, line.indexOf(" "));
+            String timeStart = line.substring(line.indexOf(" ") + 1, line.lastIndexOf("-"));
+            String timeEnd = line.substring(line.lastIndexOf("-") + 1);
+
+            Long start = DateUtils.getStampFromTime(date + " " + timeStart);
+            Long end = DateUtils.getStampFromTime(date + " " + timeEnd);
+
+            //判断数据是否按顺序增加
+            if (end > start && (dateArray.size() == 0 || start > dateArray.get(dateArray.size() - 1))) {
+                dateArray.add(start);
+                dateArray.add(end);
+            }
+        });
+
+        Long[] dateIndex = new Long[dateArray.size()];
+        return dateArray.toArray(dateIndex);
     }
 }

@@ -1,4 +1,4 @@
-package com.jonas.set;
+package com.jonas.collection;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;

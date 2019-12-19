@@ -1,6 +1,6 @@
-package com.jonas;
+package com.jonas.common;
 
-import com.jonas.date.DateUtils;
+import com.jonas.common.DateUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

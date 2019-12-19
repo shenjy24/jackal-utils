@@ -1,4 +1,4 @@
-package com.jonas.excel;
+package com.jonas.file.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;

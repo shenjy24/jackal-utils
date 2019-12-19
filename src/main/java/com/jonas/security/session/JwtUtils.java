@@ -1,4 +1,4 @@
-package com.jonas.session;
+package com.jonas.security.session;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;

@@ -1,4 +1,4 @@
-package com.jonas.shorturl;
+package com.jonas.common.shorturl;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

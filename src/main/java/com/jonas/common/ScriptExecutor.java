@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.common;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;

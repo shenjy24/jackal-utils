@@ -1,4 +1,4 @@
-package com.jonas.security;
+package com.jonas.security.encrypt;
 
 import com.google.common.base.Charsets;
 
