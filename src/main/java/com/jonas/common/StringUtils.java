@@ -2,10 +2,13 @@ package com.jonas.common;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
+
+import static cn.hutool.core.util.StrUtil.replace;
+import static cn.hutool.core.util.StrUtil.utf8Str;
 
 /**
  * 字符串工具
@@ -46,16 +49,30 @@ public class StringUtils {
         return (List<T>) list;
     }
 
-    public static void main(String[] args) {
-        List<Integer> list = Lists.newArrayList();
-        for (int i = 0; i < 10; i++) {
-            list.add(i);
-            list.add(null);
+    /**
+     * 格式化文本，使用 <delimiter>varName<delimiter> 占位<br>
+     * map = {a: "aValue", b: "bValue"} format("%a% and %b%", map， "%") ---=》 aValue and bValue
+     *
+     * @param template 文本模板，被替换的部分用 {key} 表示
+     * @param map 参数值对
+     * @return 格式化后的文本
+     */
+    public static String format(CharSequence template, Map<?, ?> map, String delimiter) {
+        if (null == template) {
+            return null;
+        }
+        if (null == map || map.isEmpty()) {
+            return template.toString();
         }
 
-        String source = join(list, ":");
-        System.out.println(source);
-        List<Integer> ints = split(source, ":");
-        System.out.println(ints);
+        String template2 = template.toString();
+        String value;
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            value = utf8Str(entry.getValue());
+            if (null != value) {
+                template2 = replace(template2, delimiter + entry.getKey() + delimiter, value);
+            }
+        }
+        return template2;
     }
 }

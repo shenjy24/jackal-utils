@@ -1,6 +1,7 @@
 package com.jonas.file;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,24 +39,52 @@ public class FileCreator {
     }
 
     /**
+     * 文件复制
+     *
+     * @param targetFileName 目标文件名
+     * @param sourceFileName 源文件名
+     * @return
+     */
+    public static boolean copyFile(String targetFileName, String sourceFileName) {
+        if (StringUtils.isBlank(targetFileName) || StringUtils.isBlank(sourceFileName)) {
+            return false;
+        }
+
+        InputStream sourceInputStream = FileCreator.class.getClassLoader().getResourceAsStream(sourceFileName);
+        if (null == sourceInputStream) {
+            return false;
+        }
+        File targetFile = new File(targetFileName);
+        if (targetFile.exists()) {
+            return false;
+        }
+        try {
+            FileUtils.copyInputStreamToFile(sourceInputStream, targetFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * 创建文件及其父目录
      *
      * @param file
      * @return
      */
-    public static File createFile(File file) {
-        if (null == file) {
-            return null;
+    public static boolean createFile(File file) {
+        if (null == file || file.exists()) {
+            return false;
         }
-        if (!file.exists()) {
-            mkParentDirs(file);
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
+        mkParentDirs(file);
+        try {
+            file.createNewFile();
+            return true;
+        } catch (IOException e) {
+            return false;
         }
-        return file;
     }
 
     /**
