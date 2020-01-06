@@ -44,6 +44,16 @@ public class DateUtils {
     }
 
     /**
+     * 获取昨天日期字符串
+     *
+     * @return
+     */
+    public static String getYesterdayDate() {
+        LocalDate now = LocalDate.now().minusDays(1);
+        return now.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
+
+    /**
      * 获取当前日期字符串
      *
      * @return
