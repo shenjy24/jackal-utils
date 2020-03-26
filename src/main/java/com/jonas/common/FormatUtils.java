@@ -46,11 +46,15 @@ public class FormatUtils {
      * @return
      */
     public static String formatSecond(int second) {
+        int d = second / (3600 * 24);
         int h = second / 3600;
         int m = (second % 3600) / 60;
         int s = (second % 3600) % 60;
 
         StringBuilder time = new StringBuilder();
+        if (0 != d) {
+            time.append(d + "天");
+        }
         if (0 != h) {
             time.append(h + "小时");
         }
