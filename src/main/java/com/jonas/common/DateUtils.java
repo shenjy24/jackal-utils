@@ -265,4 +265,13 @@ public class DateUtils {
         Long[] dateIndex = new Long[dateArray.size()];
         return dateArray.toArray(dateIndex);
     }
+
+    /**
+     * 获取当天凌晨0点毫秒时间戳
+     *
+     * @return
+     */
+    public static long getTodayMorning() {
+        return getStampFromDate(getCurrentDate());
+    }
 }

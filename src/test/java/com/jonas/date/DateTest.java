@@ -23,4 +23,10 @@ public class DateTest {
         List<String> dates2 = Arrays.asList("2019-12-19 10:00:00-20:00:00");
         Assert.assertTrue(DateUtils.checkRange(dates2));
     }
+
+    @Test
+    public void testGetCurrentDateTime() {
+        long timestamp = DateUtils.getStampFromDate(DateUtils.getCurrentDate());
+        Assert.assertEquals(timestamp, DateUtils.getTodayMorning());
+    }
 }
