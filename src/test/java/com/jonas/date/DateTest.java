@@ -29,4 +29,10 @@ public class DateTest {
         long timestamp = DateUtils.getStampFromDate(DateUtils.getCurrentDate());
         Assert.assertEquals(timestamp, DateUtils.getTodayMorning());
     }
+
+    @Test
+    public void getStamp() {
+        String datetime = DateUtils.getCurrentDate() + " 05:00:00";
+        System.out.println(DateUtils.getStampFromTime(datetime));
+    }
 }
