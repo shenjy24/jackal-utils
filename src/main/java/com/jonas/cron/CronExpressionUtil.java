@@ -142,23 +142,50 @@ public class CronExpressionUtil {
      * 获取上一个执行时间
      *
      * @param cronExpression
+     * @param date
+     * @return
+     */
+    public static Date getLastTime(String cronExpression, Date date) {
+        try {
+            if (date != null) {
+                return new CronExpression(cronExpression).getPrevFireTime(date);
+            } else {
+                return new CronExpression(cronExpression).getPrevFireTime(new Date());
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    /**
+     * 获取从此刻开始的上一次执行时间
+     *
+     * @param cronExpression
      * @return
      */
     public static Date getLastTime(String cronExpression) {
-        List<Date> dates = getNextTimeList(cronExpression, null, 2);
-        long interval = dates.get(1).getTime() - dates.get(0).getTime();
-        long lastStamp = dates.get(0).getTime() - interval;
-        return new Date(lastStamp);
+        return getLastTime(cronExpression, null);
     }
 
     /**
      * 获取上一个执行时间字符串
      *
      * @param cronExpression
+     * @param date
+     * @return
+     */
+    public static String getLastTimeStr(String cronExpression, Date date) {
+        return formatToDateTimeStr(getLastTime(cronExpression, date));
+    }
+
+    /**
+     * 获取从当前时间往上一个执行时间字符串
+     *
+     * @param cronExpression
      * @return
      */
     public static String getLastTimeStr(String cronExpression) {
-        return formatToDateTimeStr(getLastTime(cronExpression));
+        return formatToDateTimeStr(getLastTime(cronExpression, null));
     }
 
     /**
