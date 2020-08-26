@@ -172,6 +172,7 @@ public class ListUtils {
 
     /**
      * 集合交集
+     *
      * @param list1
      * @param list2
      * @return
@@ -180,18 +181,22 @@ public class ListUtils {
         return org.apache.commons.collections.ListUtils.retainAll(list1, list2);
     }
 
-    public static void main(String[] args) {
-        List<Integer> list = new ArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-            list.add(i);
-        }
+    /**
+     * 获取某个列表的子集，增加越界处理
+     *
+     * @param fromIndex low endpoint (inclusive) of the subList
+     * @param toIndex   high endpoint (exclusive) of the subList
+     * @param source    source list
+     * @param <T>
+     * @return a view of the specified range within this list
+     */
+    public static <T> List<T> subList(int fromIndex, int toIndex, List<T> source) {
+        if (fromIndex < 0)
+            throw new IndexOutOfBoundsException("fromIndex = " + fromIndex);
+        if (fromIndex > toIndex)
+            throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
 
-        List<Integer> list2 = new ArrayList<>(10);
-        for (int i = 0; i < 5; i++) {
-            list2.add(i);
-        }
-
-        System.out.println(diffSet(list, list2));
-        System.out.println(interSet(list, list2));
+        toIndex = Math.min(toIndex, source.size());
+        return source.subList(fromIndex, toIndex);
     }
 }

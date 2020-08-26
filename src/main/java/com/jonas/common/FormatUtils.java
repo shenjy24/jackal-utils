@@ -14,8 +14,8 @@ import java.text.DecimalFormat;
 public class FormatUtils {
 
     public static void main(String[] args) {
-        Long ms = 1541650820000L;
-        System.out.println(formatTime(ms));
+        int ms = 1540;
+        System.out.println(formatDuration(ms));
     }
 
     /**
