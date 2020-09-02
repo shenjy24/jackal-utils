@@ -1,7 +1,7 @@
 package com.jonas.common;
 
 import com.google.common.collect.Maps;
-import com.jonas.net.HttpUtils;
+import com.jonas.net.OkHttpUtils;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class GeoUtils {
         params.put("key", key);
         params.put("ip", ip);
 
-        Response response = HttpUtils.synGet(url, params);
+        Response response = OkHttpUtils.synGet(url, params);
 
         try {
             return response.body().string();
@@ -55,7 +55,7 @@ public class GeoUtils {
         params.put("ak", ak);
         params.put("ip", ip);
 
-        Response response = HttpUtils.synGet(url, params);
+        Response response = OkHttpUtils.synGet(url, params);
 
         try {
             return response.body().string();
