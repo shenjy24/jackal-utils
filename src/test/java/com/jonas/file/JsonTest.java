@@ -1,4 +1,4 @@
-package com.jonas;
+package com.jonas.file;
 
 import com.jonas.object.GsonUtils;
 import lombok.AllArgsConstructor;
