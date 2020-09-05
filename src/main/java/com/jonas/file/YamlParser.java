@@ -13,11 +13,11 @@ import java.io.InputStream;
  */
 public class YamlParser {
 
+    private static final Yaml yaml = new Yaml();
+
     public static  <T> T toBean(String file, Class<T> clz) {
         ClassLoader classLoader = YamlParser.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(file);
-
-        Yaml yaml = new Yaml();
         return yaml.loadAs(inputStream, clz);
     }
 }
