@@ -1,6 +1,5 @@
 package com.jonas.file;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -29,8 +28,8 @@ public class FileCreator {
             return false;
         }
         try {
-            InputStream initialStream = FileUtils.openInputStream(sourceFile);
-            FileUtils.copyInputStreamToFile(initialStream, file);
+            InputStream initialStream = org.apache.commons.io.FileUtils.openInputStream(sourceFile);
+            org.apache.commons.io.FileUtils.copyInputStreamToFile(initialStream, file);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -59,7 +58,7 @@ public class FileCreator {
             return false;
         }
         try {
-            FileUtils.copyInputStreamToFile(sourceInputStream, targetFile);
+            org.apache.commons.io.FileUtils.copyInputStreamToFile(sourceInputStream, targetFile);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
