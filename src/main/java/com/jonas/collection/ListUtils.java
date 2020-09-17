@@ -3,6 +3,7 @@ package com.jonas.collection;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -179,6 +180,20 @@ public class ListUtils {
      */
     public static <T> List<T> interSet(List<T> list1, List<T> list2) {
         return org.apache.commons.collections.ListUtils.retainAll(list1, list2);
+    }
+
+    /**
+     * 集合不重复并集
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public static <T> List<T> unionSet(List<T> list1, List<T> list2) {
+        List<T> l1 = Lists.newArrayList(list1);
+        List<T> l2 = Lists.newArrayList(list2);
+        l1.addAll(l2);
+        return Lists.newArrayList(Sets.newHashSet(l1));
     }
 
     /**
