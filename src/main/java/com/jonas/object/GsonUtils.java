@@ -59,6 +59,7 @@ public class GsonUtils {
         List<User> users = new ArrayList<User>() {{
             add(new User(1, "Tom1"));
             add(new User(2, "Tom2"));
+            add(new User(3));
         }};
         Type type = new TypeToken<List<User>>(){}.getType();
         String str = toJson(users, type);
@@ -74,10 +75,11 @@ public class GsonUtils {
         System.out.println(jsonArray2);
 
         JsonObject jsonObject1 = toJsonObject(users.get(0));
-        System.out.println(jsonObject1.get("id"));
+        System.out.println(jsonObject1.get("id").getAsString());
 
-        JsonObject jsonObject2 = toJsonObject(str);
-        System.out.println(jsonObject2.get("id"));
+        JsonObject jsonObject2 = toJsonObject(users.get(2));
+        String name = jsonObject2.has("name") ? jsonObject2.get("name").getAsString() : "";
+        System.out.println(name);
     }
 
     @Data
@@ -86,5 +88,9 @@ public class GsonUtils {
     public static class User {
         private Integer id;
         private String name;
+
+        public User(Integer id) {
+            this.id = id;
+        }
     }
 }
