@@ -1,8 +1,10 @@
 package com.jonas.object;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +16,7 @@ import java.util.List;
 public class JacksonUtils {
 
     public static void main(String[] args) {
-        List<String> commands = Arrays.asList("c:message raw %player% hello", "c:message raw %player% hi");
+        List<String> commands = new ArrayList<>();
         String message = toJson(commands);
         System.out.println(message);
         String[] list = toBean(message, String[].class);
@@ -22,8 +24,9 @@ public class JacksonUtils {
     }
 
     public static <T> T toBean(String json, Class<T> clz) {
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.readValue(json, clz);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -34,6 +37,7 @@ public class JacksonUtils {
     public static <T> String toJson(T t) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return objectMapper.writeValueAsString(t);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

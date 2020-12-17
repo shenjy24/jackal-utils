@@ -43,7 +43,7 @@ public class GsonUtils {
         return gson.toJsonTree(collection, type).getAsJsonArray();
     }
 
-    public static JsonArray toJsonArray(String json, Type type) {
+    public static JsonArray toJsonArray(String json) {
         return JsonParser.parseString(json).getAsJsonArray();
     }
 
@@ -71,13 +71,13 @@ public class GsonUtils {
         JsonArray jsonArray1 = toJsonArray(userList, type);
         System.out.println(jsonArray1);
 
-        JsonArray jsonArray2 = toJsonArray(str, type);
+        JsonArray jsonArray2 = toJsonArray(str);
         System.out.println(jsonArray2);
 
         JsonObject jsonObject1 = toJsonObject(users.get(0));
         System.out.println(jsonObject1.get("id").getAsString());
 
-        JsonObject jsonObject2 = toJsonObject(users.get(2));
+        JsonObject jsonObject2 = toJsonObject(toJson(users.get(2)));
         String name = jsonObject2.has("name") ? jsonObject2.get("name").getAsString() : "";
         System.out.println(name);
     }
