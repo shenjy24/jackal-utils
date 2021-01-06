@@ -4,7 +4,12 @@ import com.jonas.common.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,5 +39,11 @@ public class DateTest {
     public void getStamp() {
         String datetime = DateUtils.getCurrentDate() + " 05:00:00";
         System.out.println(DateUtils.getStampFromTime(datetime));
+    }
+
+    @Test
+    public void test() {
+        String datetime = "2020-12-12 0:20";
+        System.out.println(new SimpleDateFormat("y-M-d H:m").format(datetime));
     }
 }
