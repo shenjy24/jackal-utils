@@ -1,7 +1,5 @@
 package com.jonas.common;
 
-import com.jonas.common.DateUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -47,7 +45,7 @@ public class FormatUtils {
      */
     public static String formatSecond(int second) {
         int d = second / (3600 * 24);
-        int h = second / 3600;
+        int h = (second % (3600 * 24)) / 3600;
         int m = (second % 3600) / 60;
         int s = (second % 3600) % 60;
 
