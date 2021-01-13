@@ -14,14 +14,14 @@ import javax.script.ScriptException;
  * @since 2019-10-28
  */
 public class ScriptExecutor {
-    private static IFormula FORMULA;
-    private static String HEALTH = "health + 25 * con + 20 * str";
-    private static String ATTACK = "(atk + 4 * str + 2.75 * dex) * dmg";
+    private static final IFormula FORMULA;
+    private static final String HEALTH = "health + 25 * con + 20 * str";
+    private static final String ATTACK = "(atk + 4 * str + 2.75 * dex) * dmg";
 
     static {
         String healthFormula = "function getHealth(health, con, str) { return " + HEALTH + "}";
         String attackFormula = "function getAttack(atk, str, dex, dmg) { return " + ATTACK + "}";
-        String function = new StringBuilder(healthFormula).append(attackFormula).toString();
+        String function = healthFormula + attackFormula;
 
         ScriptEngine engine = new ScriptEngineManager(String.class.getClassLoader()).getEngineByExtension("js");
         try {

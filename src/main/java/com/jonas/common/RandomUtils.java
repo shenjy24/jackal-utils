@@ -1,7 +1,5 @@
 package com.jonas.common;
 
-import cn.hutool.core.util.RandomUtil;
-
 import java.util.Random;
 
 /**
