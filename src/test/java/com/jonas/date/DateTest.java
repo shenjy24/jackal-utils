@@ -5,7 +5,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -20,6 +22,14 @@ import java.util.List;
  * @since 2019-12-19
  */
 public class DateTest {
+
+    @Test
+    public void testFormat() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        String str = localDateTime.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日hh点mm分"));
+        System.out.println(str);
+    }
+
     @Test
     public void testCheckRange() {
         List<String> dates1 = Arrays.asList("2017-07-21 10:00:00-20:00:00");
@@ -27,12 +37,6 @@ public class DateTest {
 
         List<String> dates2 = Arrays.asList("2019-12-19 10:00:00-20:00:00");
         Assert.assertTrue(DateUtils.checkRange(dates2));
-    }
-
-    @Test
-    public void testGetCurrentDateTime() {
-        long timestamp = DateUtils.getStampFromDate(DateUtils.getCurrentDate());
-        Assert.assertEquals(timestamp, DateUtils.getTodayMorning());
     }
 
     @Test

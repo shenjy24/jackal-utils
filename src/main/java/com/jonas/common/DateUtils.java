@@ -44,16 +44,6 @@ public class DateUtils {
     }
 
     /**
-     * 获取昨天日期字符串
-     *
-     * @return
-     */
-    public static String getYesterdayDate() {
-        LocalDate now = LocalDate.now().minusDays(1);
-        return now.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
-    }
-
-    /**
      * 获取当前日期字符串
      *
      * @return
@@ -88,14 +78,8 @@ public class DateUtils {
         LocalDate localDate1 = Instant.ofEpochMilli(stamp1).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDate2 = Instant.ofEpochMilli(stamp2).atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Integer result = localDate1.compareTo(localDate2);
-        if (0 == result) {
-            return 0;
-        } else if (0 > result) {
-            return -1;
-        } else {
-            return 1;
-        }
+        int result = localDate1.compareTo(localDate2);
+        return Integer.compare(result, 0);
     }
 
     /**
@@ -172,16 +156,25 @@ public class DateUtils {
         return Long.valueOf(millisecond / 1000).intValue();
     }
 
-    public static Integer getSundayEnd() {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
-        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(DayOfWeek.SUNDAY.getValue() - localData.getDayOfWeek().getValue()));
-        String sunday = df.format(LocalDate.now().with(dateAdjuster));
-
-        LocalDateTime localDateTime = LocalDateTime.parse(sunday + " 23:59:59", DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS));
-        return Math.toIntExact(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli() / 1000);
+    public static String getDayOfWeekDateTime(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDate.now().with(dateAdjuster));
     }
 
-    public static LocalDateTime getLocalDateTime(Integer timestamp) {
+    public static String getDayOfWeekDate(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDate.now().with(dateAdjuster));
+    }
+
+    public static String getDayOfWeek(DayOfWeek dayOfWeek, String format) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDate.now().with(dateAdjuster));
+    }
+
+    public static LocalDateTime getLocalDateTime(int timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
@@ -264,14 +257,5 @@ public class DateUtils {
 
         Long[] dateIndex = new Long[dateArray.size()];
         return dateArray.toArray(dateIndex);
-    }
-
-    /**
-     * 获取当天凌晨0点毫秒时间戳
-     *
-     * @return
-     */
-    public static long getTodayMorning() {
-        return getStampFromDate(getCurrentDate());
     }
 }
