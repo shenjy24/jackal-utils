@@ -5,10 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
@@ -49,5 +46,10 @@ public class DateTest {
     public void test() {
         String datetime = "2020-12-12 0:20";
         System.out.println(new SimpleDateFormat("y-M-d H:m").format(datetime));
+    }
+
+    @Test
+    public void testDayOfWeek() {
+        System.out.println(DateUtils.getDayOfWeekDateTime(DayOfWeek.MONDAY));
     }
 }

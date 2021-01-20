@@ -156,22 +156,16 @@ public class DateUtils {
         return Long.valueOf(millisecond / 1000).intValue();
     }
 
-    public static String getDayOfWeekDateTime(DayOfWeek dayOfWeek) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
-        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
-        return df.format(LocalDate.now().with(dateAdjuster));
-    }
-
-    public static String getDayOfWeekDate(DayOfWeek dayOfWeek) {
+    public static String getDayOfWeek(DayOfWeek dayOfWeek) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
         TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
         return df.format(LocalDate.now().with(dateAdjuster));
     }
 
-    public static String getDayOfWeek(DayOfWeek dayOfWeek, String format) {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern(format);
+    public static String getDayOfWeekDateTime(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
         TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
-        return df.format(LocalDate.now().with(dateAdjuster));
+        return df.format(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)).with(dateAdjuster));
     }
 
     public static LocalDateTime getLocalDateTime(int timestamp) {
