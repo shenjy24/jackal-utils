@@ -23,6 +23,10 @@ import java.util.Properties;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * 本地安装Nexus2，执行 nexus console 启动界面，地址为http://localhost:8081
+ * API文档：http://localhost:8081/nexus/nexus-restlet1x-plugin/default/docs/index.html
+ */
 public class VersionChecker {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VersionChecker.class);
