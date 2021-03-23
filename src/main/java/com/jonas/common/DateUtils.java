@@ -156,6 +156,22 @@ public class DateUtils {
         return Long.valueOf(millisecond / 1000).intValue();
     }
 
+    public static String dateToString(LocalDate localDate) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        return df.format(localDate);
+    }
+
+    public static String datetimeToString(LocalDateTime localDateTime) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        return df.format(localDateTime);
+    }
+
+    public static String getLastDayOfMonth() {
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+        LocalDateTime lastDayOfMonth = dateTime.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+        return datetimeToString(lastDayOfMonth);
+    }
+
     public static String getDayOfWeek(DayOfWeek dayOfWeek) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
         TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
@@ -171,6 +187,20 @@ public class DateUtils {
     public static LocalDateTime getLocalDateTime(int timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    public static LocalDate getLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
+
+    /**
+     * localDate
+     * @param localDate
+     * @return
+     */
+    public static String getLocalDate(LocalDate localDate) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        return localDate.format(df);
     }
 
     /**

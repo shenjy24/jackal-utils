@@ -7,6 +7,8 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -51,5 +53,11 @@ public class DateTest {
     @Test
     public void testDayOfWeek() {
         System.out.println(DateUtils.getDayOfWeekDateTime(DayOfWeek.MONDAY));
+        System.out.println(DateUtils.getDayOfWeek(DayOfWeek.MONDAY));
+    }
+
+    @Test
+    public void testAdjuster() {
+        System.out.println(DateUtils.getLastDayOfMonth());
     }
 }
