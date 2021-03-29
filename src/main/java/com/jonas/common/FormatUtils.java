@@ -1,8 +1,16 @@
 package com.jonas.common;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 【 容量转换 】
@@ -11,9 +19,32 @@ import java.text.DecimalFormat;
  */
 public class FormatUtils {
 
+    private static final BigInteger THRESHOLD = new BigInteger("1000000");
+    private static List<Currency> currencies = new ArrayList<Currency>() {{
+        add(new Currency("兆", new BigInteger("1000000000000")));
+        add(new Currency("亿", new BigInteger("100000000")));
+        add(new Currency("万", new BigInteger("10000")));
+    }};
+
     public static void main(String[] args) {
         int ms = 1540;
         System.out.println(formatDuration(ms));
+    }
+
+    public static String formatNumber(BigInteger amount) {
+        if (amount.compareTo(THRESHOLD) < 1) {
+            return amount.toString();
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (Currency currency : currencies) {
+            BigInteger num = amount.divide(currency.getRate());
+            if (0 <= num.compareTo(BigInteger.ONE)) {
+                res.append(num).append(currency.getName());
+                amount = amount.remainder(currency.getRate());
+            }
+        }
+        return StringUtils.isNotBlank(res.toString()) ? res.toString() : amount.toString();
     }
 
     /**
@@ -139,5 +170,13 @@ public class FormatUtils {
             return String.valueOf((long) value);
         }
         return String.valueOf(value);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Currency {
+        private String name;
+        private BigInteger rate;
     }
 }
