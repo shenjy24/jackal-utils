@@ -60,4 +60,10 @@ public class DateTest {
     public void testAdjuster() {
         System.out.println(DateUtils.getLastDayOfMonth());
     }
+
+    @Test
+    public void testToday() {
+        String date = DateUtils.getCurrentDate();
+        System.out.println(DateUtils.getStampFromDate(date));
+    }
 }
