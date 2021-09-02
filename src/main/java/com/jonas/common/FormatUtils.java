@@ -69,6 +69,24 @@ public class FormatUtils {
     }
 
     /**
+     * 格式化字符串
+     *
+     * @param str 字符串
+     * @return 格式化字符串
+     */
+    private static String formatName(String str) {
+        StringBuilder formatName = new StringBuilder(str);
+        int mid = formatName.length() / 2;
+        if (5 >= formatName.length()) {
+            return formatName.replace(mid, mid + 1, "*").toString();
+        } else if (8 >= formatName.length()) {
+            return formatName.replace(mid - 1, mid + 2, "***").toString();
+        } else {
+            return formatName.replace(mid - 2, mid + 3, "*****").toString();
+        }
+    }
+
+    /**
      * 时间大小转换
      *
      * @param second
@@ -114,7 +132,7 @@ public class FormatUtils {
     private static String parse(int num) {
         if (0 == num) {
             return "00";
-        } else if (10 > num){
+        } else if (10 > num) {
             return "0" + num;
         } else {
             return String.valueOf(num);
@@ -159,8 +177,9 @@ public class FormatUtils {
 
     /**
      * 格式化数字，有小数保留scale位，无小数显示整数
-     * @param num     数字
-     * @param scale  保留位数
+     *
+     * @param num   数字
+     * @param scale 保留位数
      * @return
      */
     public static String formatDouble(double num, int scale) {
