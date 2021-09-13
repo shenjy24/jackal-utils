@@ -190,9 +190,33 @@ public class DateUtils {
      * @param dayOfWeek 周几
      * @return 日期
      */
+    public static String getLastDayOfWeek(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue() - 7));
+        return df.format(LocalDate.now().with(dateAdjuster));
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
     public static String getDayOfWeekDateTime(DayOfWeek dayOfWeek) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
         TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)).with(dateAdjuster));
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
+    public static String getLastDayOfWeekDateTime(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue() - 7));
         return df.format(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)).with(dateAdjuster));
     }
 

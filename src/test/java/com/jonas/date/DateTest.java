@@ -57,6 +57,12 @@ public class DateTest {
     }
 
     @Test
+    public void testLastDayOfWeek() {
+        System.out.println(DateUtils.getDayOfWeekDateTime(DayOfWeek.MONDAY.minus(7)));
+
+    }
+
+    @Test
     public void testAdjuster() {
         System.out.println(DateUtils.getLastDayOfMonth());
     }
