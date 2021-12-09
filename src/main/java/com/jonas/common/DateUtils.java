@@ -230,6 +230,16 @@ public class DateUtils {
     }
 
     /**
+     * 时间戳转化为LocalDate
+     *
+     * @param timestamp 时间戳
+     * @return LocalDate
+     */
+    public static LocalDate getLocalDate(long timestamp) {
+        return getLocalDate(getDate(timestamp));
+    }
+
+    /**
      * localDate
      *
      * @param localDate

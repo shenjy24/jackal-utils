@@ -27,8 +27,9 @@ public class FormatUtils {
     }};
 
     public static void main(String[] args) {
-        int ms = 1540;
+        int ms = 0;
         System.out.println(formatDuration(ms));
+        System.out.println(formatSecond(ms));
     }
 
     public static String formatNumber(BigInteger amount) {

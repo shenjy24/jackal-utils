@@ -1,21 +1,20 @@
 package com.jonas.vod;
 
-import ws.schild.jave.Encoder;
+import lombok.Data;
 import ws.schild.jave.EncoderException;
 import ws.schild.jave.MultimediaInfo;
 import ws.schild.jave.MultimediaObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 
 /**
  * 视频工具类
  *
  * @author shenjy 2018/12/03
  */
+@Data
 public class VideoUtils {
 
     /**
