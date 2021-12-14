@@ -1,4 +1,4 @@
-package com.jonas.object;
+package com.jonas.bean;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

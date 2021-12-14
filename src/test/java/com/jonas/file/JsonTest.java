@@ -1,6 +1,6 @@
 package com.jonas.file;
 
-import com.jonas.object.GsonUtils;
+import com.jonas.bean.GsonUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -8,18 +8,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Yaml解析工具类
+ * Yaml工具类
  *
  * @author shenjy
  * @version 1.0
  * @date 2020-09-05
  */
-public class YamlParser {
+public class YamlUtil {
 
     private static final Yaml yaml = new Yaml();
 
     public static <T> T toBean(String file, Class<T> clz) {
-        ClassLoader classLoader = YamlParser.class.getClassLoader();
+        ClassLoader classLoader = YamlUtil.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(file);
         return yaml.loadAs(inputStream, clz);
     }

@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * <p>
- * </p>
+ * 文件操作工具
  *
  * @author shenjiayun
  * @since 2019-12-17
  */
-public class FileCreator {
+public class FileUtil {
 
     /**
      * 文件复制
@@ -49,7 +48,7 @@ public class FileCreator {
             return false;
         }
 
-        InputStream sourceInputStream = FileCreator.class.getClassLoader().getResourceAsStream(sourceFileName);
+        InputStream sourceInputStream = FileUtil.class.getClassLoader().getResourceAsStream(sourceFileName);
         if (null == sourceInputStream) {
             return false;
         }

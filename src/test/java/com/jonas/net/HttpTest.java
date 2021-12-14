@@ -1,6 +1,6 @@
 package com.jonas.net;
 
-import com.jonas.object.JacksonUtils;
+import com.jonas.bean.JacksonUtils;
 import okhttp3.Response;
 import org.junit.Test;
 

@@ -1,13 +1,7 @@
-package com.jonas.object;
+package com.jonas.bean;
 
 import lombok.Data;
-import org.apache.commons.lang3.ClassPathUtils;
 import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 
 /**
  * @author shenjy
