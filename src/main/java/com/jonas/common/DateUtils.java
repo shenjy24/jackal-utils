@@ -329,4 +329,15 @@ public class DateUtils {
         Long[] dateIndex = new Long[dateArray.size()];
         return dateArray.toArray(dateIndex);
     }
+
+    /**
+     * 获取两个日期间隔天数
+     *
+     * @param start 开始日期
+     * @param end   截止日期
+     * @return 间隔天数
+     */
+    public static long getDateInterval(LocalDate start, LocalDate end) {
+        return ChronoUnit.DAYS.between(start, end);
+    }
 }

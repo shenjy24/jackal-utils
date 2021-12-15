@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
@@ -71,5 +72,12 @@ public class DateTest {
     public void testToday() {
         String date = DateUtils.getCurrentDate();
         System.out.println(DateUtils.getStampFromDate(date));
+    }
+
+    @Test
+    public void testBetween() {
+        LocalDate createDate = LocalDate.of(2021, 12, 12);
+        LocalDate currentDate = LocalDate.now();
+        System.out.println(ChronoUnit.DAYS.between(createDate, currentDate));
     }
 }
