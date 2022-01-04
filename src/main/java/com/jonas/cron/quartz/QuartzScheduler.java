@@ -18,7 +18,7 @@ public class QuartzScheduler {
         }
     }
 
-    public static void schedule(Class jobClass, String cron) {
+    public static void schedule(Class<? extends Job> jobClass, String cron) {
         JobDetail jobDetail = JobBuilder.newJob(jobClass).withIdentity("Job_" + jobClass.getName(), "JobGroup").build();
         Trigger trigger = newTrigger().withIdentity("Trigger_" + jobClass.getName(), "TriggerGroup").withSchedule(CronScheduleBuilder.cronSchedule(cron)).build();
         try {
