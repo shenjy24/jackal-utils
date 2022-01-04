@@ -1,5 +1,7 @@
 package com.jonas;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Maps;
 import com.jonas.common.FormatUtils;
@@ -14,6 +16,7 @@ import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Unit test for simple App.
@@ -55,7 +58,7 @@ public class AppTest {
 
         /** 获取公钥密钥 */
         KeyPair keyPair = SignUtils.getKeyPair();
-        PublicKey publicKey =  keyPair.getPublic();
+        PublicKey publicKey = keyPair.getPublic();
         PrivateKey privateKey = keyPair.getPrivate();
 
 //        System.out.println(publicKey);
@@ -75,10 +78,10 @@ public class AppTest {
         System.out.println("verify sign with md5 and rsa: " + md5Verify);
 
         /** sha1签名 */
-        String sha1Sign  = SignUtils.getSha1Sign(data, privateKey);
-        System.out.println("sign with sha1 and rsa: "+ sha1Sign);
-        boolean sha1Verify = SignUtils.verifySha1Sign(data, sha1Sign,publicKey);
-        System.out.println("verify sign with sha1 and rsa: "+ sha1Verify);
+        String sha1Sign = SignUtils.getSha1Sign(data, privateKey);
+        System.out.println("sign with sha1 and rsa: " + sha1Sign);
+        boolean sha1Verify = SignUtils.verifySha1Sign(data, sha1Sign, publicKey);
+        System.out.println("verify sign with sha1 and rsa: " + sha1Verify);
 
         /** 按照内容排序 */
         Map<String, Object> params = Maps.newHashMap();
@@ -105,5 +108,10 @@ public class AppTest {
         CompressUtils.unzip(unzipFile, unzipDir);
 
         System.out.println("success!");
+    }
+
+    @Test
+    public void testSnowflake() {
+        System.out.println(UUID.randomUUID().toString().length());
     }
 }
