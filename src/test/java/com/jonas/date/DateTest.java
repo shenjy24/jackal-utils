@@ -5,13 +5,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -79,5 +79,11 @@ public class DateTest {
         LocalDate createDate = LocalDate.of(2021, 12, 12);
         LocalDate currentDate = LocalDate.now();
         System.out.println(ChronoUnit.DAYS.between(createDate, currentDate));
+    }
+
+    @Test
+    public void testFirstDateOfMonth() {
+        System.out.println(DateUtils.getFirstDateOfMonth());
+        System.out.println(DateUtils.getAdjusterDate(TemporalAdjusters.lastInMonth(DayOfWeek.MONDAY)));
     }
 }

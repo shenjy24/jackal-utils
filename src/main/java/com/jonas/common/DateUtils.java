@@ -340,4 +340,21 @@ public class DateUtils {
     public static long getDateInterval(LocalDate start, LocalDate end) {
         return ChronoUnit.DAYS.between(start, end);
     }
+
+    /**
+     * 获取本月第一天日期
+     *
+     * @return "yyyy-MM-dd"格式时间
+     */
+    public static String getFirstDateOfMonth() {
+        LocalDate monthOfFirstDate = LocalDate.parse(getCurrentDate(),
+                DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD)).with(TemporalAdjusters.firstDayOfMonth());
+        return monthOfFirstDate.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
+
+    public static String getAdjusterDate(TemporalAdjuster adjuster) {
+        LocalDate monthOfFirstDate = LocalDate.parse(getCurrentDate(),
+                DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD)).with(adjuster);
+        return monthOfFirstDate.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
 }
