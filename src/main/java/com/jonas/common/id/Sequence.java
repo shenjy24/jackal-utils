@@ -1,8 +1,8 @@
 package com.jonas.common.id;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -174,6 +174,6 @@ public class Sequence {
     }
 
     protected long timeGen() {
-        return com.jonas.util.SystemClock.now();
+        return SystemClock.now();
     }
 }
