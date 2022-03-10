@@ -13,7 +13,7 @@ public class StreamDemo {
 
     public static void main(String[] args) {
         StreamDemo app = new StreamDemo();
-        app.concat();
+        app.groupByAndCount();
     }
 
     //测试数据
@@ -219,6 +219,13 @@ public class StreamDemo {
         System.out.println("员工最高工资：" + max);
         System.out.println("员工工资总和：" + sum);
         System.out.println("员工工资统计信息：" + collect);
+    }
+
+    //分组统计个数
+    public void groupByAndCount() {
+        List<Person> people = listPerson();
+        Map<Integer, Long> ageCountMap = people.stream().collect(Collectors.groupingBy(Person::getAge, Collectors.counting()));
+        System.out.println(ageCountMap);
     }
 
     //partitioningBy将stream按条件分为两个Map，比如员工按薪资是否高于8000分为两部分

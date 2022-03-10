@@ -1,10 +1,14 @@
 package com.jonas.file;
 
+import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 文件操作工具
@@ -97,5 +101,20 @@ public class FileUtil {
             parentFile.mkdirs();
         }
         return parentFile;
+    }
+
+    public static String readFileContent(File file) {
+        try {
+            return IOUtils.toString(file.toURI(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @SneakyThrows
+    public static void main(String[] args) {
+        File file = new File(FileUtil.class.getClassLoader().getResource("config.yml").getPath());
+        System.out.println(FileUtils.readFileToString(file, StandardCharsets.UTF_8));
     }
 }
