@@ -9,6 +9,9 @@ import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Map;
 
+import static org.reflections.scanners.Scanners.SubTypes;
+import static org.reflections.scanners.Scanners.TypesAnnotated;
+
 /**
  * @author shenjy
  * @date 2021/11/30
@@ -30,7 +33,7 @@ public class ReflectionUtil {
      */
     public static void testSubTypeOf(Class clazz) {
         ConfigurationBuilder builder = new ConfigurationBuilder().forPackages("com.jonas")
-                .addScanners(Scanners.TypesAnnotated).addScanners(Scanners.SubTypes);
+                .addScanners(TypesAnnotated).addScanners(Scanners.SubTypes);
         Reflections reflections = new Reflections(builder);
         System.out.println(reflections.getSubTypesOf(clazz));
     }
@@ -44,5 +47,10 @@ public class ReflectionUtil {
         Reflections reflections = new Reflections("com.jonas");
         // 注解的生命周期必须为CLASS或RUNTIME才能获取到，SOURCE获取不到
         System.out.println(reflections.getTypesAnnotatedWith(clazz));
+        // 返回子类
+        System.out.println(reflections.get(SubTypes.of(TypesAnnotated.with(clazz)).asClass()));
+        System.out.println(reflections.get(TypesAnnotated.with(clazz).asClass()));
+        System.out.println(reflections.get(TypesAnnotated.get(clazz).asClass()));
+        System.out.println(reflections.get(TypesAnnotated.of(clazz).asClass()));
     }
 }
