@@ -8,7 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 文件操作工具
@@ -17,6 +20,26 @@ import java.nio.charset.StandardCharsets;
  * @since 2019-12-17
  */
 public class FileUtil {
+
+    /**
+     * 获取某路径下的文件
+     *
+     * @param path       目录路径
+     * @param extensions 扩展名
+     * @param recursive  是否递归
+     * @return
+     */
+    public static List<File> listFile(String path, String[] extensions, boolean recursive) {
+        URL url = FileUtil.class.getClassLoader().getResource(path);
+        if (url == null) {
+            return new ArrayList<>();
+        }
+        File file = new File(url.getPath());
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+        return new ArrayList<>(FileUtils.listFiles(file, extensions, recursive));
+    }
 
     /**
      * 文件复制
@@ -31,8 +54,8 @@ public class FileUtil {
             return false;
         }
         try {
-            InputStream initialStream = org.apache.commons.io.FileUtils.openInputStream(sourceFile);
-            org.apache.commons.io.FileUtils.copyInputStreamToFile(initialStream, file);
+            InputStream initialStream = FileUtils.openInputStream(sourceFile);
+            FileUtils.copyInputStreamToFile(initialStream, file);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -61,7 +84,7 @@ public class FileUtil {
             return false;
         }
         try {
-            org.apache.commons.io.FileUtils.copyInputStreamToFile(sourceInputStream, targetFile);
+            FileUtils.copyInputStreamToFile(sourceInputStream, targetFile);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -112,9 +135,23 @@ public class FileUtil {
         }
     }
 
+    public static String readFileToString(String fileName) {
+        File file = new File(FileUtil.class.getClassLoader().getResource(fileName).getPath());
+        return readFileToString(file);
+    }
+
+    public static String readFileToString(File file) {
+        try {
+            return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @SneakyThrows
     public static void main(String[] args) {
-        File file = new File(FileUtil.class.getClassLoader().getResource("config.yml").getPath());
-        System.out.println(FileUtils.readFileToString(file, StandardCharsets.UTF_8));
+        List<File> files = listFile("config", new String[]{"yml"}, true);
+        System.out.println(files);
     }
 }
