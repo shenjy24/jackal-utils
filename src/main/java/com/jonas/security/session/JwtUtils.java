@@ -3,7 +3,6 @@ package com.jonas.security.session;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
-import net.minidev.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -26,7 +25,7 @@ public class JwtUtils {
      */
     public static String generateToken(Map<String, Object> payloadMap) throws JOSEException {
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS256);
-        Payload payload = new Payload(new JSONObject(payloadMap));
+        Payload payload = new Payload(payloadMap);
         JWSObject jwsObject = new JWSObject(jwsHeader, payload);
         JWSSigner jwsSigner = new MACSigner(secret);
         jwsObject.sign(jwsSigner);
@@ -49,7 +48,7 @@ public class JwtUtils {
 
         Map<String, Object> resultMap = new HashMap<>();
         if (jwsObject.verify(jwsVerifier)) {
-            JSONObject jsonObject = payload.toJSONObject();
+            Map<String, Object> jsonObject = payload.toJSONObject();
             //判断token是否过期
             if (jsonObject.containsKey("exp")) {
                 Long expTime = Long.valueOf(jsonObject.get("exp").toString());

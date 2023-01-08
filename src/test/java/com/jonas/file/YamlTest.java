@@ -17,7 +17,7 @@ public class YamlTest {
 
     @Test
     public void testParseYaml() {
-        TestEntity testEntity = YamlParser.toBean("config.yml", TestEntity.class);
+        TestEntity testEntity = YamlUtil.toBean("config.yml", TestEntity.class);
         System.out.println(testEntity);
     }
 

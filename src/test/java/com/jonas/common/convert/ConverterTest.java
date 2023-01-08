@@ -1,4 +1,4 @@
-package com.jonas.convert;
+package com.jonas.common.convert;
 
 import com.jonas.common.DateUtils;
 import org.junit.Assert;

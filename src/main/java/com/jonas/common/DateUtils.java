@@ -44,16 +44,6 @@ public class DateUtils {
     }
 
     /**
-     * 获取昨天日期字符串
-     *
-     * @return
-     */
-    public static String getYesterdayDate() {
-        LocalDate now = LocalDate.now().minusDays(1);
-        return now.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
-    }
-
-    /**
      * 获取当前日期字符串
      *
      * @return
@@ -88,14 +78,8 @@ public class DateUtils {
         LocalDate localDate1 = Instant.ofEpochMilli(stamp1).atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate localDate2 = Instant.ofEpochMilli(stamp2).atZone(ZoneId.systemDefault()).toLocalDate();
 
-        Integer result = localDate1.compareTo(localDate2);
-        if (0 == result) {
-            return 0;
-        } else if (0 > result) {
-            return -1;
-        } else {
-            return 1;
-        }
+        int result = localDate1.compareTo(localDate2);
+        return Integer.compare(result, 0);
     }
 
     /**
@@ -172,18 +156,98 @@ public class DateUtils {
         return Long.valueOf(millisecond / 1000).intValue();
     }
 
-    public static Integer getSundayEnd() {
+    public static String dateToString(LocalDate localDate) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
-        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(DayOfWeek.SUNDAY.getValue() - localData.getDayOfWeek().getValue()));
-        String sunday = df.format(LocalDate.now().with(dateAdjuster));
-
-        LocalDateTime localDateTime = LocalDateTime.parse(sunday + " 23:59:59", DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS));
-        return Math.toIntExact(localDateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli() / 1000);
+        return df.format(localDate);
     }
 
-    public static LocalDateTime getLocalDateTime(Integer timestamp) {
+    public static String datetimeToString(LocalDateTime localDateTime) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        return df.format(localDateTime);
+    }
+
+    public static String getLastDayOfMonth() {
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23, 59, 59));
+        LocalDateTime lastDayOfMonth = dateTime.minusMonths(1).with(TemporalAdjusters.lastDayOfMonth());
+        return datetimeToString(lastDayOfMonth);
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
+    public static String getDayOfWeek(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDate.now().with(dateAdjuster));
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
+    public static String getLastDayOfWeek(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue() - 7));
+        return df.format(LocalDate.now().with(dateAdjuster));
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
+    public static String getDayOfWeekDateTime(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue()));
+        return df.format(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)).with(dateAdjuster));
+    }
+
+    /**
+     * 获取当前周周几的日期
+     *
+     * @param dayOfWeek 周几
+     * @return 日期
+     */
+    public static String getLastDayOfWeekDateTime(DayOfWeek dayOfWeek) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD_HH_MM_SS);
+        TemporalAdjuster dateAdjuster = TemporalAdjusters.ofDateAdjuster(localData -> localData.plusDays(dayOfWeek.getValue() - localData.getDayOfWeek().getValue() - 7));
+        return df.format(LocalDateTime.of(LocalDate.now(), LocalTime.of(0, 0)).with(dateAdjuster));
+    }
+
+    public static LocalDateTime getLocalDateTime(int timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    public static LocalDate getLocalDate(String date) {
+        return LocalDate.parse(date, DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
+
+    /**
+     * 时间戳转化为LocalDate
+     *
+     * @param timestamp 时间戳
+     * @return LocalDate
+     */
+    public static LocalDate getLocalDate(long timestamp) {
+        return getLocalDate(getDate(timestamp));
+    }
+
+    /**
+     * localDate
+     *
+     * @param localDate
+     * @return
+     */
+    public static String getLocalDate(LocalDate localDate) {
+        DateTimeFormatter df = DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD);
+        return localDate.format(df);
     }
 
     /**
@@ -267,11 +331,30 @@ public class DateUtils {
     }
 
     /**
-     * 获取当天凌晨0点毫秒时间戳
+     * 获取两个日期间隔天数
      *
-     * @return
+     * @param start 开始日期
+     * @param end   截止日期
+     * @return 间隔天数
      */
-    public static long getTodayMorning() {
-        return getStampFromDate(getCurrentDate());
+    public static long getDateInterval(LocalDate start, LocalDate end) {
+        return ChronoUnit.DAYS.between(start, end);
+    }
+
+    /**
+     * 获取本月第一天日期
+     *
+     * @return "yyyy-MM-dd"格式时间
+     */
+    public static String getFirstDateOfMonth() {
+        LocalDate monthOfFirstDate = LocalDate.parse(getCurrentDate(),
+                DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD)).with(TemporalAdjusters.firstDayOfMonth());
+        return monthOfFirstDate.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
+    }
+
+    public static String getAdjusterDate(TemporalAdjuster adjuster) {
+        LocalDate monthOfFirstDate = LocalDate.parse(getCurrentDate(),
+                DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD)).with(adjuster);
+        return monthOfFirstDate.format(DateTimeFormatter.ofPattern(FORMAT_YYYY_MM_DD));
     }
 }

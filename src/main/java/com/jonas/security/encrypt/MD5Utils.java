@@ -12,6 +12,17 @@ import java.util.Random;
  */
 public class MD5Utils {
 
+    public static void main(String[] args) {
+        String pass = "admin";
+        String md5 = saltMd5(pass);
+        System.out.println(md5);
+        String md6 = saltMd5(pass);
+        System.out.println(md6);
+        System.out.println(verifySaltMd5(pass, md5));
+        System.out.println(verifySaltMd5("1234", md6));
+        System.out.println(md5.length());
+    }
+
     /**
      * 生成含有随机盐的MD5
      *

@@ -1,4 +1,4 @@
-package com.jonas.convert;
+package com.jonas.common.convert;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

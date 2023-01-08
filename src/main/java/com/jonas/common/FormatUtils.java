@@ -1,10 +1,16 @@
 package com.jonas.common;
 
-import com.jonas.common.DateUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 【 容量转换 】
@@ -13,9 +19,33 @@ import java.text.DecimalFormat;
  */
 public class FormatUtils {
 
+    private static final BigInteger THRESHOLD = new BigInteger("1000000");
+    private static List<Currency> currencies = new ArrayList<Currency>() {{
+        add(new Currency("兆", new BigInteger("1000000000000")));
+        add(new Currency("亿", new BigInteger("100000000")));
+        add(new Currency("万", new BigInteger("10000")));
+    }};
+
     public static void main(String[] args) {
-        int ms = 1540;
+        int ms = 0;
         System.out.println(formatDuration(ms));
+        System.out.println(formatSecond(ms));
+    }
+
+    public static String formatNumber(BigInteger amount) {
+        if (amount.compareTo(THRESHOLD) < 1) {
+            return amount.toString();
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (Currency currency : currencies) {
+            BigInteger num = amount.divide(currency.getRate());
+            if (0 <= num.compareTo(BigInteger.ONE)) {
+                res.append(num).append(currency.getName());
+                amount = amount.remainder(currency.getRate());
+            }
+        }
+        return StringUtils.isNotBlank(res.toString()) ? res.toString() : amount.toString();
     }
 
     /**
@@ -40,6 +70,24 @@ public class FormatUtils {
     }
 
     /**
+     * 格式化字符串
+     *
+     * @param str 字符串
+     * @return 格式化字符串
+     */
+    private static String formatName(String str) {
+        StringBuilder formatName = new StringBuilder(str);
+        int mid = formatName.length() / 2;
+        if (5 >= formatName.length()) {
+            return formatName.replace(mid, mid + 1, "*").toString();
+        } else if (8 >= formatName.length()) {
+            return formatName.replace(mid - 1, mid + 2, "***").toString();
+        } else {
+            return formatName.replace(mid - 2, mid + 3, "*****").toString();
+        }
+    }
+
+    /**
      * 时间大小转换
      *
      * @param second
@@ -47,7 +95,7 @@ public class FormatUtils {
      */
     public static String formatSecond(int second) {
         int d = second / (3600 * 24);
-        int h = second / 3600;
+        int h = (second % (3600 * 24)) / 3600;
         int m = (second % 3600) / 60;
         int s = (second % 3600) % 60;
 
@@ -85,7 +133,7 @@ public class FormatUtils {
     private static String parse(int num) {
         if (0 == num) {
             return "00";
-        } else if (10 > num){
+        } else if (10 > num) {
             return "0" + num;
         } else {
             return String.valueOf(num);
@@ -130,8 +178,9 @@ public class FormatUtils {
 
     /**
      * 格式化数字，有小数保留scale位，无小数显示整数
-     * @param num     数字
-     * @param scale  保留位数
+     *
+     * @param num   数字
+     * @param scale 保留位数
      * @return
      */
     public static String formatDouble(double num, int scale) {
@@ -141,5 +190,13 @@ public class FormatUtils {
             return String.valueOf((long) value);
         }
         return String.valueOf(value);
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Currency {
+        private String name;
+        private BigInteger rate;
     }
 }

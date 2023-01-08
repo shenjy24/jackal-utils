@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class OkHttpUtils {
 
+    private static MediaType JSON = MediaType.parse("application/json;charset=utf-8");
+
     public static Response synGet(String url) {
         OkHttpClient okHttpClient = new OkHttpClient();
         HttpUrl.Builder builder = HttpUrl.parse(url).newBuilder();
@@ -68,5 +70,18 @@ public class OkHttpUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static Response synPost(String url, String json) {
+        try {
+            RequestBody requestBody = RequestBody.create(JSON, json);
+            Request request = new Request.Builder().url(url).post(requestBody).build();
+
+            OkHttpClient okHttpClient = new OkHttpClient();
+            return okHttpClient.newCall(request).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -113,9 +113,9 @@ public class HttpUtils {
 
         StringBuilder content = new StringBuilder();
         for (Map.Entry<String, String> entry : params.entrySet()) {
-            content.append(entry.getKey() + "=" + entry.getValue() + "&");
+            content.append(entry.getKey()).append("=").append(entry.getValue()).append("&");
         }
-        return content.toString().substring(0, content.length() - 1);
+        return content.substring(0, content.length() - 1);
     }
 
     private static void close(HttpURLConnection connection, InputStream inputStream, BufferedReader reader) {

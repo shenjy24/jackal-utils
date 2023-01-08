@@ -1,4 +1,4 @@
-package com.jonas.object;
+package com.jonas.bean;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
